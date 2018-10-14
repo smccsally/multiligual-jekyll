@@ -1,0 +1,22 @@
+en:
+  home:
+    name: "Home"
+    link: "/"
+  about:
+    name: "About"
+    link: "/about.html"
+  receipes:
+    name: "Recipes"
+    link: "/recipes.html"
+  contact:
+    name: "contact"
+    link: "/contact.html"
+zh:
+  home:
+    name: "首頁"
+    link: "/zh/"
+  about:
+    name: "關於"
+    link: "/zh/about.html"
+
+
