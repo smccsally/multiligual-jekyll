@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html lang="{{page.lang}}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+		<title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title[page.lang] | escape }}{% endif %}</title>
+  		<meta name="description" content="{% if page.description %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description[page.lang] }}{% endif %}">
+		
+		
+		<link href="//fonts.googleapis.com/css?family=Antic+Slab|Fira+Sans" rel="stylesheet">
+		<link rel="stylesheet" media="screen" href="{{ site.baseurl }}/css/screen.css">
+		{% if page.print_stylesheet %}
+			<link rel="stylesheet" media="print" href="{{ site.baseurl }}/css/print.css">
+		{% endif %}
+		<link rel="icon" type="image/png" href="{{ site.baseurl }}/images/favicon.png">
+		<!--{% feed_meta %}-->
+		 <link rel="alternate" type="application/rss+xml" title="{{ site.title[page.lang] }}" href="{{ site.feed[page.lang] | prepend: site.baseurl | prepend: site.url }}">
+
+		{% if jekyll.environment == 'production' and site.google_analytics_key != '' %}
+			<script>
+				window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+				ga('create', '{{ site.google_analytics_key }}', 'auto');
+				ga('send', 'pageview');
+			</script>
+			<script async src='https://www.google-analytics.com/analytics.js'></script>
+		{% endif %}
+	</head>
+	<body>
+		<div class="wrapper" style="text-align: right; line-height: 2em">
+		  {% assign posts=site.posts | where:"ref", page.ref | sort: 'lang' %}
+		  {% for post in posts %} <a href="{{ post.url | prepend: site.baseurl }}" class="{{ post.lang }}">{{ post.lang }}</a> {% endfor %}
+		  
+		  {% assign page_lang=site.pages | where:"ref", page.ref | sort: 'lang' | map: 'lang' | uniq  %}
+		  {% assign pages=site.pages | where:"ref", page.ref | sort: 'lang'  %}
+		   
+			{% for page in pages %} 
+				{% if page_lang contains page.lang %}
+					<a href="{{ page.url | prepend: site.baseurl }}" class="{{ page.lang }}">{{ page.lang }}</a>
+				{% endif %}
+				{% assign page_lang = page_lang | remove: page.lang %}
+			{% endfor %}
+		</div>
+		{% include navigation.html %}
+		<header>
+			<a href="{{site.baseurl }}/">
+				<img src="{{ site.baseurl }}/images/logo.svg" width="180" alt="logo">
+			</a>
+		</header>
+		<div class="container main-content">
+			<section class="content">{{ content }}</section>
+			{% include sidebar.html %}
+		</div>
+		<footer>
+			<div class="container">
+				<hr>
+				&copy; {{ site.title[page.lang] }} {{ site.time | date: "%Y" }}. {{site.copyright[page.lang]}}
+			</div>
+		</footer>
+	</body>
+</html>
